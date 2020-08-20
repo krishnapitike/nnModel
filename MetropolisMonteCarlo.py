@@ -127,16 +127,25 @@ def createDirectory(tempdir):
     else:
         print("Directory " , tempdir ,  " already exists")
 
+def getDeltaO2ChemPot(P,T): #P=pressure in atm, T=temperature in K, C=compound string
+    a=-3.860E-07      #polynomial fit for janaf table
+    b=-1.880E-03
+    c=4.430E-02
+    mu0=0
+    muT=a*T**2+b*T+c
+    muP=kB*T*np.log(P)
+    return((muT+muP+mu0)/2)
+
 def getO2ChemPot(P,T): #P=pressure in atm, T=temperature in K, C=compound string
     a=-3.860E-07      #polynomial fit for janaf table
     b=-1.880E-03
     c=4.430E-02
     mu0=-9.07679829   #eV/O2 DFT
     mu0=-5.17*2       #ev/O2 experimental
-    mu0=0
     muT=a*T**2+b*T+c
     muP=kB*T*np.log(P)
     return((muT+muP+mu0)/2)
+
 
 def getEnergy(system):
     pEnergies   = np.zeros(nPhases)                                         #total energy of the system
@@ -241,7 +250,7 @@ for T in range( Tmin, Tmax+Tstep, Tstep ):
     #END BLOCK to setup filenames and variables
 
     #BEGIN BLOCK to setup physical parameters
-    O2ChemPot  = getO2ChemPot(pO2,T)
+    O2ChemPot  = getDeltaO2ChemPot(pO2,T)
     beta       = 1/(kB*T)
     totEn      = 0
     #END BLOCK to setup physical parameters
