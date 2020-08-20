@@ -297,7 +297,7 @@ for T in range( Tmin, Tmax+Tstep, Tstep ):
             phase += acceptedPhasePercent
             short += sop
             tot   += 1
-            xvals  = [T,P,O2ChemPot,tot]
+            xvals  = [T,pO2,O2ChemPot,tot]
             if (tot%iCheck==0) :
                 ##BEGIN BLOCK TO cast short range order parameter in a 1x25 array for easy csv printing
                 sopList=[]
